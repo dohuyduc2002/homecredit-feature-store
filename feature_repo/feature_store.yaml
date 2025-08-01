@@ -1,0 +1,49 @@
+project: homecredit
+
+provider: local
+
+registry:
+    registry_type: sql
+    path: s3a://minio.database.svc.cluster.local:9000/feast/registry.pb
+
+offline_store:
+    type: spark
+    spark_conf:
+        spark.master: "local[*]"
+        spark.ui.enabled: "false"
+        spark.eventLog.enabled: "false"
+        spark.sql.catalogImplementation: "hive"
+        spark.sql.parser.quotedRegexColumnNames: "true"
+        spark.sql.session.timeZone: "UTC"
+        spark.sql.execution.arrow.fallback.enabled: "true"
+        spark.sql.execution.arrow.pyspark.enabled: "true"
+
+        # MinIO specific configurations
+        spark.hadoop.fs.s3a.endpoint: "minio.database.svc.cluster.local:9000"  # MinIO endpoint in your Kubernetes cluster
+        spark.hadoop.fs.s3a.impl: "org.apache.hadoop.fs.s3a.S3AFileSystem"
+        spark.hadoop.fs.s3a.path.style.access: "true"  # For path-style access
+        spark.hadoop.fs.s3a.connection.ssl.enabled: "false"  # Set to True if using HTTPS
+        spark.hadoop.fs.s3a.access.key: "minio" 
+        spark.hadoop.fs.s3a.secret.key: "minio123"  
+
+        # AWS SDK configurations (These are still required for MinIO compatibility)
+        spark.hadoop.fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+
+        # Add required JARs for MinIO (s3a and AWS SDK)
+        spark.jars.packages: "org.apache.hadoop:hadoop-aws:3.3.4,org.apache.hadoop:hadoop-common:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.261"
+
+
+online_store:
+    type: postgres
+    host: postgres.database.svc.cluster.local
+    port: 5432
+    database: homecredit
+    db_schema: public
+    user: postgres
+    password: postgres
+    vector_enabled: false
+
+entity_key_serialization_version: 3
+
+auth:
+    type: no_auth
