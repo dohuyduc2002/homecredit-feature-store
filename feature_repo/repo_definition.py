@@ -90,7 +90,7 @@ def create_feature_view(entity, source_name, feature_view_name):
 
 if __name__ == "__main__":
     bucket_name = "sample-data"
-    blob_name = "application.csv"
+    blob_name = "curated_train_data.csv"
 
     minio_path = f"s3a://minio.database.svc.cluster.local:9000/{bucket_name}/{blob_name}"
 
