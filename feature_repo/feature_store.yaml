@@ -43,7 +43,7 @@ online_store:
     password: postgres
     vector_enabled: false
 
-entity_key_serialization_version: 3
+entity_key_serialization_version: 2
 
 auth:
     type: no_auth
