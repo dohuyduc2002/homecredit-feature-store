@@ -4,7 +4,7 @@ provider: local
 
 registry:
     registry_type: sql
-    path: s3a://minio.database.svc.cluster.local:9000/feast/registry.pb
+    path: s3a://feast/registry.pb
 
 offline_store:
     type: spark
