@@ -45,8 +45,10 @@ def create_feature_source(source_name, minio_path):
         timestamp_field="updated",  # Assuming 'updated' is the timestamp field in your CSV
         created_timestamp_column="created",  # Assuming 'created' is the created timestamp field in your CSV
     )
+    return application_source
 
-def create_feature_view(entity, source_name, feature_view_name):
+
+def create_feature_view(entity, source, feature_view_name):
     application_fv = FeatureView(
         name=feature_view_name,
         entities=[entity],
@@ -77,9 +79,10 @@ def create_feature_view(entity, source_name, feature_view_name):
             Field(name="DAYS_EMPLOYED", dtype=feast.types.Int32),
         ],
         online=True,
-        source=source_name,
+        source=source,
     )
     return application_fv
+
 
 # def create_feature_service(feature_service_name, feature_views):
 #     transactions_fs = FeatureService(
@@ -88,16 +91,13 @@ def create_feature_view(entity, source_name, feature_view_name):
 #         logging_config=LoggingConfig(destination=FileLoggingDestination(path="data")),
 #     )
 
-# if __name__ == "__main__": 
+# if __name__ == "__main__":
 bucket_name = "sample-data"
 blob_name = "curated_train_data.csv"
-
 minio_path = f"s3a://minio.database.svc.cluster.local:9000/{bucket_name}/{blob_name}"
+feature_view_name = "application_feature_view"
+source_name = "application_source"
 
 project, entity = create_feast_config()
-
-source_name = "application_source"
-create_feature_source(source_name, minio_path)
-
-feature_view_name = "application_feature_view"
-application_fv = create_feature_view(entity, source_name, feature_view_name)
+application_source = create_feature_source(source_name, minio_path)
+application_fv = create_feature_view(entity, application_source, feature_view_name)
