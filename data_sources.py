@@ -1,8 +1,4 @@
-from feast import (
-    Field,
-    FileSource,
-    KafkaSource
-)
+from feast import KafkaSource
 
 from feast.infra.offline_stores.contrib.spark_offline_store.spark_source import SparkSource
 from feast.data_format import StreamFormat, AvroFormat
@@ -21,24 +17,24 @@ minio_client = Minio(
 )
 
 
-def create_spark_source(spark_src_name, minio_path, file_format, timestamp_field, created_timestamp_column):
+def create_spark_source(spark_src_name, minio_path):
     application_source = SparkSource(
         name=spark_src_name,
         path=minio_path,
-        file_format=file_format,
-        timestamp_field=timestamp_field,
-        created_timestamp_column=created_timestamp_column,
+        file_format="csv",
+        timestamp_field="updated",  
+        created_timestamp_column="created",  
         description="user spark source",
         owner="dohuyduc.work@gmail.com",
     )
     return application_source
 
-def create_kafka_source(kafka_src_name, topic, bootstrap_servers, message_format, timestamp_field):
+def create_kafka_source(kafka_src_name, topic, bootstrap_servers, timestamp_field):
     # A push source is useful if you have upstream systems that transform features (e.g. stream processing jobs)
     credit_card_balance_push_source = KafkaSource(
         name=kafka_src_name,
         timestamp_field=timestamp_field,
-        message_format=message_format,
+        message_format=AvroFormat,
         bootstrap_servers=bootstrap_servers,
         topic=topic,
         description="user kafka source",
@@ -46,3 +42,16 @@ def create_kafka_source(kafka_src_name, topic, bootstrap_servers, message_format
     )
     return credit_card_balance_push_source
 
+## Create Spark batch source
+spark_src_names = ["application", "previous-application"]
+spark_src_paths = ["s3a://sample-data/curated_train_data.csv", "s3a://sample-data/previous_application.csv"]
+
+application_source = create_spark_source(spark_src_names[0], spark_src_paths[0])
+previous_application_source = create_spark_source(spark_src_names[1], spark_src_paths[1])
+
+
+## Create Kafka source
+kafka_src_topics = ["bureau-balance", "bureau", "bureau-balance","credit-card-balance","credit-card-balance","installments-payments"]
+kafka_src_names = ["bureau-balance", "bureau", "bureau-balance","credit-card-balance","credit-card-balance","installments-payments"]
+kafka_bootstrap_servers = ":9092"
+kafka_timestamp_field = "updated"
