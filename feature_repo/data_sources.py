@@ -6,17 +6,9 @@ from feast.infra.offline_stores.contrib.spark_offline_store.spark_source import 
 from feast.data_format import JsonFormat, StreamFormat
 
 import os
-from minio import Minio
 
 s3_access_key = os.getenv("S3_ACCESS_KEY")
 s3_secret_key = os.getenv("S3_SECRET_KEY")
-
-minio_client = Minio(
-    "minio-server.example.com",
-    access_key=s3_access_key,
-    secret_key=s3_secret_key,
-    secure=False,
-)
 
 
 def create_spark_source(spark_src_name, minio_path):
