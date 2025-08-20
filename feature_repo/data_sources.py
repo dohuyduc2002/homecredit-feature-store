@@ -36,21 +36,3 @@ def create_kafka_source(kafka_src_name, topic, bootstrap_servers, stream_schema)
         owner="dohuyduc.work@gmail.com",
     )
     return stream_source
-
-
-spark_src_name = "application"
-spark_path = "s3a://sample-data/curated_application"
-
-kafka_src_name = "merged-bureau-with-sk-id-curr"
-kafka_src_topic = "flink-merged-bureau"
-kafka_bootstrap_servers = "kafka-cluster-0-kafka-bootstrap.kafka.svc.cluster.local:9092"
-stream_schema = """
-sk_id_bureau BIGINT,
-sk_id_curr BIGINT,
-months_balance INT,
-status STRING,
-updated TIMESTAMP
-"""
-
-spark_source = create_spark_source(spark_src_name, spark_path)
-stream_source = create_kafka_source(kafka_src_name, kafka_src_topic, kafka_bootstrap_servers, stream_schema)
