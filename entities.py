@@ -8,30 +8,26 @@ application_entity = Entity(
 )
 
 previous_application_entity = Entity(
-    name="previous_application", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
+    name="previous-application", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
 )
 
 # Kafka entities
-previous_application_entity = Entity(
-    name="previous_application", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
-)
-
 bureau_balance_entity = Entity(
-    name="bureau_balance", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
-)
-
-credit_card_balance_entity = Entity(
-    name="credit_card_balance", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
+    name="bureau-balance", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
 )
 
 installments_payments_entity = Entity(
-    name="installments_payments", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
+    name="installments-payments", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
 )
 
 credit_card_balance_entity = Entity(
-    name="credit_card_balance", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
+    name="credit-card-balance", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
 )
 
 bureau_entity = Entity(
     name="bureau", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
+)
+
+pos_cash_balance_entity = Entity(
+    name="pos-cash-balance", join_keys=["SK_ID_CURR"], value_type=ValueType.STRING
 )

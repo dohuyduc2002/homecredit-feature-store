@@ -21,8 +21,8 @@ offline_store:
         # MinIO specific configurations
         spark.hadoop.fs.s3a.endpoint: "minio.minio.svc.cluster.local:9000"  # MinIO endpoint in your Kubernetes cluster
         spark.hadoop.fs.s3a.impl: "org.apache.hadoop.fs.s3a.S3AFileSystem"
-        spark.hadoop.fs.s3a.path.style.access: "true"  # For path-style access
-        spark.hadoop.fs.s3a.connection.ssl.enabled: "false"  # Set to True if using HTTPS
+        spark.hadoop.fs.s3a.path.style.access: "true" 
+        spark.hadoop.fs.s3a.connection.ssl.enabled: "false" 
         spark.hadoop.fs.s3a.access.key: "minio" 
         spark.hadoop.fs.s3a.secret.key: "minio123"  
 
@@ -34,7 +34,6 @@ offline_store:
         spark.hadoop.fs.s3a.idle.connection.time: "60000"
         spark.hadoop.fs.s3a.keep.alive: "true"
 
-        # AWS SDK configurations (These are still required for MinIO compatibility)
         spark.hadoop.fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
 
         # Add required JARs for MinIO (s3a and AWS SDK)
