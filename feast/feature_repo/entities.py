@@ -50,5 +50,5 @@ gold_dim_aggregated_entity = Entity(
 
 # Kafka entities
 stream_bureau_balance_entity = Entity(
-    name="bureau_balance", join_keys=["sk_id_bureau"], value_type=ValueType.INT64
+    name="bureau_balance", join_keys=["sk_id_bureau"], value_type=ValueType.STRING
 )
