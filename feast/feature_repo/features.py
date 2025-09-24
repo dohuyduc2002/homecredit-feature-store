@@ -14,7 +14,7 @@ from entities import *
 spark_src = {
     "gold_fact_loan": "s3a://data-mart/fact_loan",
     "gold_fact_bureau_balance": "s3a://data-mart/fact_bureau_balance",
-    "gold_dim_demographic": "s3a://data-mart/dim_demographic",
+    "gold_dim_demographic": "s3a://data-mart/dim_user_demographic",
     "gold_dim_user_contact": "s3a://data-mart/dim_user_contact",
     "gold_dim_user_region": "s3a://data-mart/dim_user_region",
     "gold_dim_asset_and_bureau": "s3a://data-mart/dim_asset_and_bureau",
