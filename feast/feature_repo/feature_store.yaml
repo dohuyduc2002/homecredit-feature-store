@@ -15,8 +15,6 @@ offline_store:
         spark.kubernetes.authenticate.driver.serviceAccountName: "feast-homecredit"
         spark.kubernetes.authenticate.executor.serviceAccountName: "feast-homecredit"
 
-        spark.kubernetes.executor.deleteOnTermination: "false"
-
         spark.driver.cores: "1"
         spark.driver.memory: "2g"
 
