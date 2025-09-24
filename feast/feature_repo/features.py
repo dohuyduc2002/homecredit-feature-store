@@ -28,16 +28,20 @@ spark_src = {
 spark_sources = {}
 
 for name, path in spark_src.items():
-    spark_sources[name] = create_spark_source(name, path)
+    spark_sources[name] = create_spark_source(
+        name, path, "effective_date", "created_date"
+    )
 
-###### 
+######
 
 kafka_src_name = "raw-bureau-balance-change"
 kafka_src_topic = "flink-merged-bureau"
 kafka_bootstrap_servers = "kafka-cluster-0-kafka-bootstrap.kafka.svc.cluster.local:9092"
 
 stream_schema = "sk_id_bureau int64, sk_id_curr int64, months_balance int32, status string, updated string"
-stream_source = create_kafka_source(kafka_src_name, kafka_src_topic, kafka_bootstrap_servers, stream_schema, None)
+stream_source = create_kafka_source(
+    kafka_src_name, kafka_src_topic, kafka_bootstrap_servers, stream_schema, None
+)
 
 loan_view = FeatureView(
     name="application",
@@ -59,7 +63,6 @@ loan_view = FeatureView(
     ],
     source=spark_sources["gold_fact_loan"],
     online=True,
-    timestamp_field="event_ts",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -67,7 +70,7 @@ loan_view = FeatureView(
 bureau_balance_view = FeatureView(
     name="bureau_balance",
     description="Bureau balance history features",
-    entities=[gold_fact_bureau_balance_entity],  
+    entities=[gold_fact_bureau_balance_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_bureau", dtype=Int64),
@@ -77,7 +80,6 @@ bureau_balance_view = FeatureView(
         Field(name="updated", dtype=String),
     ],
     source=spark_sources["gold_fact_bureau_balance"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -85,7 +87,7 @@ bureau_balance_view = FeatureView(
 user_contact_view = FeatureView(
     name="user_contact",
     description="User contact and communication features",
-    entities=[gold_dim_user_contract_entity], 
+    entities=[gold_dim_user_contract_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -95,10 +97,9 @@ user_contact_view = FeatureView(
         Field(name="flag_cont_mobile", dtype=Int32),
         Field(name="flag_phone", dtype=Int32),
         Field(name="flag_email", dtype=Int32),
-        Field(name="days_last_phone_change", dtype=UnixTimestamp),  
+        Field(name="days_last_phone_change", dtype=UnixTimestamp),
     ],
     source=spark_sources["gold_dim_user_contact"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -106,7 +107,7 @@ user_contact_view = FeatureView(
 user_demographic_view = FeatureView(
     name="user_demographic",
     description="User demographic features",
-    entities=[gold_dim_demographic_entity],  
+    entities=[gold_dim_demographic_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -120,7 +121,6 @@ user_demographic_view = FeatureView(
         Field(name="years_employed", dtype=Float64),
     ],
     source=spark_sources["gold_dim_demographic"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -128,7 +128,7 @@ user_demographic_view = FeatureView(
 user_contact_view = FeatureView(
     name="user_contact",
     description="User contact and communication features",
-    entities=[gold_dim_user_contract_entity],  
+    entities=[gold_dim_user_contract_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -142,7 +142,6 @@ user_contact_view = FeatureView(
         Field(name="days_last_phone_change", dtype=UnixTimestamp),
     ],
     source=spark_sources["gold_dim_user_contact"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -150,7 +149,7 @@ user_contact_view = FeatureView(
 user_region_view = FeatureView(
     name="user_region",
     description="User regional and city mismatch features",
-    entities=[gold_dim_user_region_entity],  
+    entities=[gold_dim_user_region_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -165,7 +164,6 @@ user_region_view = FeatureView(
         Field(name="live_city_not_work_city", dtype=Int32),
     ],
     source=spark_sources["gold_dim_user_region"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -173,7 +171,7 @@ user_region_view = FeatureView(
 asset_and_bureau_view = FeatureView(
     name="asset_and_bureau",
     description="User assets and bureau credit features",
-    entities=[gold_dim_asset_and_bureau_entity],  
+    entities=[gold_dim_asset_and_bureau_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -200,7 +198,6 @@ asset_and_bureau_view = FeatureView(
         Field(name="amt_annuity", dtype=String),
     ],
     source=spark_sources["gold_dim_asset_and_bureau"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -208,7 +205,7 @@ asset_and_bureau_view = FeatureView(
 user_income_view = FeatureView(
     name="user_income",
     description="User income, contract, and credit-related features",
-    entities=[gold_dim_user_income_entity],  
+    entities=[gold_dim_user_income_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -222,7 +219,6 @@ user_income_view = FeatureView(
         Field(name="amt_goods_price", dtype=Float64),
     ],
     source=spark_sources["gold_dim_user_income"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -230,7 +226,7 @@ user_income_view = FeatureView(
 external_source_view = FeatureView(
     name="external_source",
     description="External score source features",
-    entities=[gold_dim_external_source_entity], 
+    entities=[gold_dim_external_source_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -239,7 +235,6 @@ external_source_view = FeatureView(
         Field(name="ext_source_3", dtype=Float64),
     ],
     source=spark_sources["gold_dim_external_source"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -247,19 +242,18 @@ external_source_view = FeatureView(
 application_time_view = FeatureView(
     name="application_time",
     description="Application timing features",
-    entities=[gold_dim_application_time_entity], 
+    entities=[gold_dim_application_time_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
-        Field(name="days_registration", dtype=UnixTimestamp),  
-        Field(name="days_id_publish", dtype=UnixTimestamp),    
+        Field(name="days_registration", dtype=UnixTimestamp),
+        Field(name="days_id_publish", dtype=UnixTimestamp),
         Field(name="hour_appr_process_start", dtype=Int32),
         Field(name="weekday_appr_process_start", dtype=String),
         Field(name="is_weekend", dtype=Int32),
         Field(name="is_working_hour", dtype=Int32),
     ],
     source=spark_sources["gold_dim_application_time"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -267,7 +261,7 @@ application_time_view = FeatureView(
 provided_docs_view = FeatureView(
     name="provided_docs",
     description="Flags for user provided documents",
-    entities=[gold_dim_provided_docs_entity],  
+    entities=[gold_dim_provided_docs_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -293,7 +287,6 @@ provided_docs_view = FeatureView(
         Field(name="flag_document_21", dtype=Int32),
     ],
     source=spark_sources["gold_dim_provided_docs"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -301,7 +294,7 @@ provided_docs_view = FeatureView(
 aggregated_view = FeatureView(
     name="aggregated",
     description="Aggregated features from multiple domains",
-    entities=[gold_dim_aggregated_entity], 
+    entities=[gold_dim_aggregated_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),
@@ -358,7 +351,6 @@ aggregated_view = FeatureView(
         Field(name="def_60_cnt_social_circle", dtype=Float64),
     ],
     source=spark_sources["gold_dim_aggregated"],
-    timestamp_field="effective_date",
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )

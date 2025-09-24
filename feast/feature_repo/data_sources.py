@@ -19,20 +19,28 @@ minio_client = Minio(
 )
 
 
-def create_spark_source(spark_src_name, minio_path):
+def create_spark_source(
+    spark_src_name, minio_path, timestamp_field, created_timestamp_column
+):
     batching_source = SparkSource(
         name=spark_src_name,
         path=minio_path,
         file_format="delta",
-        timestamp_field="updated",
-        created_timestamp_column="created",
+        timestamp_field=timestamp_field,
+        created_timestamp_column=created_timestamp_column,
         description="user spark source",
         owner="dohuyduc.work@gmail.com",
     )
     return batching_source
 
 
-def create_kafka_source(kafka_src_name, topic, kafka_bootstrap_servers, stream_schema, watermark_delay_threshold=None):
+def create_kafka_source(
+    kafka_src_name,
+    topic,
+    kafka_bootstrap_servers,
+    stream_schema,
+    watermark_delay_threshold=None,
+):
     # A push source is useful if you have upstream systems that transform features (e.g. stream processing jobs)
     stream_source = KafkaSource(
         name=kafka_src_name,
@@ -40,8 +48,8 @@ def create_kafka_source(kafka_src_name, topic, kafka_bootstrap_servers, stream_s
         message_format=JsonFormat(stream_schema),
         kafka_bootstrap_servers=kafka_bootstrap_servers,
         topic=topic,
-        watermark_delay_threshold= watermark_delay_threshold,
+        watermark_delay_threshold=watermark_delay_threshold,
         description="user kafka source",
-        owner="dohuyduc.work@gmail.com"
+        owner="dohuyduc.work@gmail.com",
     )
     return stream_source
