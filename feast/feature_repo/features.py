@@ -125,27 +125,6 @@ user_demographic_view = FeatureView(
     owner="dohuyduc.work@gmail.com",
 )
 
-user_contact_view = FeatureView(
-    name="user_contact",
-    description="User contact and communication features",
-    entities=[gold_dim_user_contract_entity],
-    ttl=timedelta(days=60),
-    schema=[
-        Field(name="sk_id_curr", dtype=Int64),
-        Field(name="flag_mobil", dtype=Int32),
-        Field(name="flag_emp_phone", dtype=Int32),
-        Field(name="flag_work_phone", dtype=Int32),
-        Field(name="flag_cont_mobile", dtype=Int32),
-        Field(name="flag_phone", dtype=Int32),
-        Field(name="flag_email", dtype=Int32),
-        Field(name="days_last_phone_change", dtype=String),
-        Field(name="days_last_phone_change", dtype=UnixTimestamp),
-    ],
-    source=spark_sources["gold_dim_user_contact"],
-    tags={"development": "True"},
-    owner="dohuyduc.work@gmail.com",
-)
-
 user_region_view = FeatureView(
     name="user_region",
     description="User regional and city mismatch features",
