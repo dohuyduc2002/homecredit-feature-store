@@ -6,7 +6,7 @@ from feast import (
     Field,
 )
 from feast.on_demand_feature_view import on_demand_feature_view
-from feast.types import Float64, String, Int32, Int64, Double, UnixTimestamp
+from feast.types import Float64, String, Int32, Int64, UnixTimestamp
 
 from data_sources import create_spark_source, create_kafka_source
 from entities import *
