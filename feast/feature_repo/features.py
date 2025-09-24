@@ -87,7 +87,7 @@ bureau_balance_view = FeatureView(
 user_contact_view = FeatureView(
     name="user_contact",
     description="User contact and communication features",
-    entities=[gold_dim_user_contract_entity],
+    entities=[gold_dim_user_contact_entity],
     ttl=timedelta(days=60),
     schema=[
         Field(name="sk_id_curr", dtype=Int64),

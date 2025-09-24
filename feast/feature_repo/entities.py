@@ -15,7 +15,7 @@ gold_dim_demographic_entity = Entity(
     name="demographic", join_keys=["sk_id_curr"], value_type=ValueType.INT64
 )
 
-gold_dim_user_contract_entity = Entity(
+gold_dim_user_contact_entity = Entity(
     name="user_contract", join_keys=["sk_id_curr"], value_type=ValueType.INT64
 )
 
