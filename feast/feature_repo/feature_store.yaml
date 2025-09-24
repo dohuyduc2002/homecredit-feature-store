@@ -10,6 +10,8 @@ offline_store:
     type: spark
     spark_conf:
         spark.master: "k8s://https://kubernetes.default.svc"
+        spark.driver.extraClassPath: "/opt/spark/jars/*"
+        spark.executor.extraClassPath: "/opt/spark/jars/*"
         spark.kubernetes.namespace: "feast"
         spark.kubernetes.container.image: "microwave1005/spark-etl:0.0.1"
         spark.kubernetes.authenticate.driver.serviceAccountName: "feast-homecredit"
