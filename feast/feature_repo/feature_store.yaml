@@ -4,7 +4,7 @@ provider: local
 
 registry:
     registry_type: sql
-    path: s3a://feast/registry.pb
+    path: postgresql+psycopg2://postgres:postgres@localhost:5432/homecredit
 
 offline_store:
     type: spark
