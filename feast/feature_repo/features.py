@@ -40,9 +40,15 @@ kafka_bootstrap_servers = "kafka-cluster-0-kafka-bootstrap.kafka.svc.cluster.loc
 timestamp_field = "updated"
 stream_schema = "sk_id_bureau int64, sk_id_curr int64, months_balance int32, status string, updated timestamp"
 stream_source = create_kafka_source(
-    kafka_src_name, kafka_src_topic, kafka_bootstrap_servers, stream_schema, None
+    kafka_src_name=kafka_src_name,
+    topic=kafka_src_topic,
+    kafka_bootstrap_servers=kafka_bootstrap_servers,
+    timestamp_field=timestamp_field,
+    created_timestamp_column=None,
+    batch_source=spark_sources["gold_fact_bureau_balance"],
+    stream_schema=stream_schema,
+    watermark_delay_threshold=timedelta(minutes=5),
 )
-
 loan_view = FeatureView(
     name="application",
     description="Application features",
