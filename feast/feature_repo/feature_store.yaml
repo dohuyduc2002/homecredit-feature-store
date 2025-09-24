@@ -9,27 +9,9 @@ registry:
 offline_store:
     type: spark
     spark_conf:
-        spark.master: "k8s://https://kubernetes.default.svc"
+        spark.master: "local[*]"
         spark.driver.extraClassPath: "/opt/spark/jars/*"
         spark.executor.extraClassPath: "/opt/spark/jars/*"
-        spark.kubernetes.namespace: "feast"
-        spark.kubernetes.container.image: "microwave1005/kfp-etl:feast-0.0.1"
-        spark.kubernetes.authenticate.driver.serviceAccountName: "feast-homecredit"
-        spark.kubernetes.authenticate.executor.serviceAccountName: "feast-homecredit"
-
-        spark.driver.cores: "1"
-        spark.driver.memory: "2g"
-
-        spark.kubernetes.driver.request.cores: "500m"
-        spark.kubernetes.driver.limit.cores: "1"
-        spark.kubernetes.executor.request.cores: "500m"
-        spark.kubernetes.executor.limit.cores: "1"
-        spark.kubernetes.executor.request.memory: "1g"
-        spark.kubernetes.executor.limit.memory: "2g"
-
-        spark.executor.instances: "2"     
-        spark.executor.cores: "1"
-        spark.executor.memory: "2g"
 
         spark.ui.enabled: "false"
         spark.eventLog.enabled: "false"
