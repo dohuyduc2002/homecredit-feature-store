@@ -38,16 +38,21 @@ def create_kafka_source(
     kafka_src_name,
     topic,
     kafka_bootstrap_servers,
+    timestamp_field,
+    created_timestamp_column,
+    batch_source,
     stream_schema,
     watermark_delay_threshold=None,
 ):
     # A push source is useful if you have upstream systems that transform features (e.g. stream processing jobs)
     stream_source = KafkaSource(
         name=kafka_src_name,
-        timestamp_field="updated",
+        timestamp_field=timestamp_field,
         message_format=JsonFormat(stream_schema),
         kafka_bootstrap_servers=kafka_bootstrap_servers,
         topic=topic,
+        created_timestamp_column=created_timestamp_column,
+        batch_source=batch_source,
         watermark_delay_threshold=watermark_delay_threshold,
         description="user kafka source",
         owner="dohuyduc.work@gmail.com",

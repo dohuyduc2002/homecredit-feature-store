@@ -37,8 +37,8 @@ for name, path in spark_src.items():
 kafka_src_name = "raw-bureau-balance-change"
 kafka_src_topic = "flink-merged-bureau"
 kafka_bootstrap_servers = "kafka-cluster-0-kafka-bootstrap.kafka.svc.cluster.local:9092"
-
-stream_schema = "sk_id_bureau int64, sk_id_curr int64, months_balance int32, status string, updated string"
+timestamp_field = "updated"
+stream_schema = "sk_id_bureau int64, sk_id_curr int64, months_balance int32, status string, updated timestamp"
 stream_source = create_kafka_source(
     kafka_src_name, kafka_src_topic, kafka_bootstrap_servers, stream_schema, None
 )
@@ -63,23 +63,6 @@ loan_view = FeatureView(
     ],
     source=spark_sources["gold_fact_loan"],
     online=True,
-    tags={"development": "True"},
-    owner="dohuyduc.work@gmail.com",
-)
-
-bureau_balance_view = FeatureView(
-    name="bureau_balance",
-    description="Bureau balance history features",
-    entities=[gold_fact_bureau_balance_entity],
-    ttl=timedelta(days=60),
-    schema=[
-        Field(name="sk_id_bureau", dtype=Int64),
-        Field(name="sk_id_curr", dtype=Int64),
-        Field(name="months_balance", dtype=Int32),
-        Field(name="status", dtype=String),
-        Field(name="updated", dtype=String),
-    ],
-    source=spark_sources["gold_fact_bureau_balance"],
     tags={"development": "True"},
     owner="dohuyduc.work@gmail.com",
 )
@@ -334,6 +317,23 @@ aggregated_view = FeatureView(
     owner="dohuyduc.work@gmail.com",
 )
 #####
+
+bureau_balance_view = FeatureView(
+    name="bureau_balance",
+    description="Bureau balance history features",
+    entities=[gold_fact_bureau_balance_entity],
+    ttl=timedelta(days=60),
+    schema=[
+        Field(name="sk_id_bureau", dtype=Int64),
+        Field(name="sk_id_curr", dtype=Int64),
+        Field(name="months_balance", dtype=Int32),
+        Field(name="status", dtype=String),
+        Field(name="updated", dtype=String),
+    ],
+    source=spark_sources["gold_fact_bureau_balance"],
+    tags={"development": "True"},
+    owner="dohuyduc.work@gmail.com",
+)
 
 stream_flink_merged_bureau_balance_view = FeatureView(
     name="stream_flink_merged_bureau_balance",
