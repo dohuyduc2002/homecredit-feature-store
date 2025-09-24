@@ -12,17 +12,17 @@ from data_sources import create_spark_source, create_kafka_source
 from entities import *
 
 spark_src = {
-    "gold_fact_loan": "s3a://data-mart/gold_fact_loan",
-    "gold_fact_bureau_balance": "s3a://data-mart/gold_fact_bureau_balance",
-    "gold_dim_demographic": "s3a://data-mart/gold_dim_demographic",
-    "gold_dim_user_contact": "s3a://data-mart/gold_dim_user_contact",
-    "gold_dim_user_region": "s3a://data-mart/gold_dim_user_region",
-    "gold_dim_asset_and_bureau": "s3a://data-mart/gold_dim_asset_and_bureau",
-    "gold_dim_user_income": "s3a://data-mart/gold_dim_user_income",
-    "gold_dim_external_source": "s3a://data-mart/gold_dim_external_source",
-    "gold_dim_application_time": "s3a://data-mart/gold_dim_application_time",
-    "gold_dim_provided_docs": "s3a://data-mart/gold_dim_provided_docs",
-    "gold_dim_aggregated": "s3a://data-mart/gold_dim_aggregated",
+    "gold_fact_loan": "s3a://data-mart/fact_loan",
+    "gold_fact_bureau_balance": "s3a://data-mart/fact_bureau_balance",
+    "gold_dim_demographic": "s3a://data-mart/dim_demographic",
+    "gold_dim_user_contact": "s3a://data-mart/dim_user_contact",
+    "gold_dim_user_region": "s3a://data-mart/dim_user_region",
+    "gold_dim_asset_and_bureau": "s3a://data-mart/dim_asset_and_bureau",
+    "gold_dim_user_income": "s3a://data-mart/dim_user_income",
+    "gold_dim_external_source": "s3a://data-mart/dim_external_source",
+    "gold_dim_application_time": "s3a://data-mart/dim_application_time",
+    "gold_dim_provided_docs": "s3a://data-mart/dim_provided_docs",
+    "gold_dim_aggregated": "s3a://data-mart/dim_aggregated",
 }
 
 spark_sources = {}
